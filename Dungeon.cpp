@@ -154,11 +154,78 @@ int Dungeon::runDungeon(){
     //present actions
     //take action - enter sequence
     //check if dead
+    
     //movement options
+    handleMovementActions(player.currentRoom);
 
     }
 
 
 }
 
+void Dungeon::handleMovementActions(Room *room){
+    while(true){
+        if (room->pos == 0) {
+            string actions[] = {"A. Move Right", "B. Move Down"};
+            printActions(2, actions);
+            string input;
+            cin >> input;
+            if (input == "A"||input == "a"){
+                player.changeRooms(&room[1]);
+                return;
+            }else if (input == "B" || input == "b"){
+                player.changeRooms(&room[2]);
+                return;
+            }else{
+                //
+                cout<<"Incorrect choice\n";
+            }
+
+
+        } else if (room->pos == 1) {
+            string actions[] = {"A. Move Left"};
+            printActions(1, actions);
+            string input;
+            cin >> input;
+            if (input == "A"||input == "a"){
+                player.changeRooms(&room[1]);
+                return;
+            }else{
+                //
+                cout<<"Incorrect choice\n";
+            }
+
+        }else if (room->pos == 2) {
+            string actions[] = {"A. Move Up", "B. Move Right"};
+            printActions(2, actions);
+            string input;
+            cin >> input;
+            if (input == "A"||input == "a"){
+                player.changeRooms(&room[0]);
+                return;
+            }else if (input == "B" || input == "b"){
+                player.changeRooms(&room[3]);
+                return;
+            }else{
+                //
+                cout<<"Incorrect choice\n";
+            }
+
+        }else {
+            string actions[] = {"A. Move Left"};
+            printActions(1, actions);
+            string input;
+            cin >> input;
+            if (input == "A"||input == "a"){
+                player.changeRooms(&room[2]);
+                return;
+            }else{
+                //
+                cout<<"Incorrect choice\n";
+            }
+
+
+        }
+    }
+}
 
