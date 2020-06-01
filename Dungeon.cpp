@@ -4,223 +4,223 @@
 
 using namespace std;
 
-Dungeon::Dungeon(Player p) 
+Dungeon::Dungeon(Player p)
 {
     player = p;
-}
+}// check
 
-void Dungeon::printActions(int numActions, string actions[]) {
-    cout << "Choose an action:\n";
-    for (int i = 0; i < numActions; i++) {
+void Dungeon::printActions(int numActions, string actions[]){
+    cout << "Choose an action: \n";
+    for (int i = 0; i < numActions; i++){
         cout << actions[i] << "\n";
     }
-}
+} //check
 
-void Dungeon::handleFightActions(GameCharacter * enemy) {
+void Dungeon::handleFightActions(GameCharacter *enemy){
     string actions[] = {
-        "a. Attack",
-        "b. Retreat",
+        "A. Attack",
+        "B. Retreat"
     };
-    while(true) {
+    while(true){
         printActions(2, actions);
         string input;
         cin >> input;
-        // handle player actions
-        if (input == "a") {
+        //handle the player actions
+        if (input == "A" || input == "a"){
             int damage = enemy->takeDamage(player.attack);
-            cout << "Your attack does " << damage << " damage.\n";
+            cout << "You have struck the enemy, and it has done " << damage << " of damage!\n";            
             return;
-        } else if (input == "b") {
+        }else if(input == "B" || input == "b"){
             player.changeRooms(player.previousRoom);
             enterRoom(player.currentRoom);
             return;
-        } else {
-            cout << "Incorrect choice.\n";
+        }else {
+            cout << "Incorrect choice\n";
         }
-        // check if enemy is dead
-        if (enemy->checkIsDead()) {
-            cout << "You win! You have defeated the " << enemy->name << ".\n"; 
-            player.increaseStats(10, 5, 5);
+        //check enemy is dead
+        if (enemy->checkIsDead()){
+            cout << "Congradulations! You killed the "<< enemy->name <<" enemy!\n";
+            player.increaseStats(10,5,5);
             player.currentRoom->clearEnemies();
-            return;
+            return;            
         }
-        // handle enemy actions
+        //handle enemy actions
         int damage = player.takeDamage(enemy->attack);
-        cout << enemy->name << "'s attack does " << damage << " damage.\n";
-        cout << "You now have " << player.currentHealth << " health.\n"; 
-        if (player.checkIsDead()) {
+        cout<< enemy->name << "'s attack does " << damage << " Damage! \n";
+        cout<< "You now have " << player.currentHealth<<" Health left. \n";
+        if(player.checkIsDead()){
             return;
         }
     }
-}
+} // check
 
-void Dungeon::handleRoomWithEnemy(Room * room) {
+void Dungeon::handleRoomWithEnemy(Room *room){
     GameCharacter enemy = room->enemies.front();
-    cout << "You enter the room and see a " << enemy.name << ".\n";
+    cout << "You enter the room and see a "<< enemy.name << "\n";
     string actions[] = {
-        "a. Fight the " + enemy.name,
-        "b. Go back to previous room",
+        "A. Fight this mofo!" + enemy.name, 
+        "B. Go back to previous room"
     };
-    while(true) {
+    while(true){
         printActions(2, actions);
         string input;
         cin >> input;
-        if (input == "a") {
+        if (input == "A" || input == "a"){
             handleFightActions(&enemy);
             return;
-        } else if (input == "b") {
+        }else if(input == "B" || input == "b"){
             player.changeRooms(player.previousRoom);
             enterRoom(player.currentRoom);
             return;
-        } else {
-            cout << "Incorrect choice.\n";
+        }else {
+            cout << "Incorrect choice\n";
         }
     }
-}
+}//check
 
-void Dungeon::handleLootActions(Room * room) {
+void Dungeon::handleLootActions(Room *room){
     Item item = room->items.front();
     int size = room->items.size();
     player.lootRoom(room);
     room->clearLoot();
-    for (int i = 0; i < size; i++) {
-        cout << "You open the chest and find a " << item.name << ".\n";
-        cout << "Your health is now " << player.currentHealth << ", your attack is now " << player.attack << ", and your defence is now " << player.defence << "\n";
+    for (int i = 0; i < size; i++){
+        cout << "You broke into the treasure and looks like you found " << item.name << ".\n";
+        cout << "Your health is now " << player.currentHealth << ", your attack is now " << player.attack <<", and your defence is now " << player.defence << ".\n";
     }
-}
+} //check
 
-void Dungeon::handleRoomWithChest(Room * room) {
-    cout << "You enter the room and see a large chest in the middle.\n";
+void Dungeon::handleRoomWithChest(Room *room){
+    cout << "You enter the room and see a large treasure chest.\n";
     string actions[] = {
-        "a. Loot the chest",
-        "b. Move to another room",
+        "A. Loot loot, woot woot", 
+        "B. Move to another room"
     };
-    while(true) {
+    while(true){
         printActions(2, actions);
         string input;
         cin >> input;
-        if (input == "a") {
+        if (input == "A" || input == "a"){
             handleLootActions(room);
             return;
-        } else if (input == "b") {
+        }else if(input == "B" || input == "b"){
             return;
-        } else {
-            cout << "Incorrect choice.\n";
+        }else {
+            cout << "Incorrect choice\n";
         }
     }
-}
+} //check
 
-void Dungeon::handleEmptyRoom(Room * room) {
+void Dungeon::handleEmptyRoom(Room *room){
     cout << "You enter the room but it is empty.\n";
-    string actions[] = {"a. Move to another room"};
-    while(true) {
+    string actions[] = {"A. Move to another room"};
+    while(true){
         printActions(1, actions);
         string input;
         cin >> input;
-        if (input == "a") {
+        if (input == "A" || input == "a"){
             return;
-        } else {
-            cout << "Incorrect choice.\n";
+        }else{
+            cout << "Incorrect choice\n";
         }
     }
-}
+} // check
 
-void Dungeon::enterRoom(Room * room) {
-    if (room->enemies.size() != 0) {
+void Dungeon::enterRoom(Room *room){
+    if (room->enemies.size() !=0){
         handleRoomWithEnemy(room);
-    } else if (room->items.size() != 0) {
+    }else if (room ->items.size()!=0){
         handleRoomWithChest(room);
     } else {
         handleEmptyRoom(room);
     }
-}
+} //check
 
-void Dungeon::handleMovementActions(Room * room) {
-    while(true) {
+void Dungeon::handleMovementActions(Room *room){
+    while(true){
         if (room->pos == 0) {
-            string actions[] = {"a. Move right", "b. Move down"};
+            string actions[] = {"A. Move Right", "B. Move Down"};
             printActions(2, actions);
             string input;
             cin >> input;
-            if (input == "a") {
+            if (input == "A"||input == "a"){
                 player.changeRooms(&rooms[1]);
                 return;
-            } else if (input == "b") {
+            }else if (input == "B" || input == "b"){
                 player.changeRooms(&rooms[2]);
                 return;
-            } else {
-                cout << "Incorrect choice.\n";
+            }else{
+                cout<<"Incorrect choice\n";
             }
         } else if (room->pos == 1) {
-            string actions[] = {"a. Move left"};
+            string actions[] = {"A. Move Left"};
             printActions(1, actions);
             string input;
             cin >> input;
-            if (input == "a") {
+            if (input == "A"|| input == "a"){
                 player.changeRooms(&rooms[0]);
                 return;
-            } else {
-                cout << "Incorrect choice.\n";
+            }else{
+                cout<<"Incorrect choice\n";
             }
-        } else if (room->pos == 2) {
-            string actions[] = {"a. Move up", "b. Move right"};
+        }else if (room->pos == 2) {
+            string actions[] = {"A. Move Up", "B. Move Right"};
             printActions(2, actions);
             string input;
             cin >> input;
-            if (input == "a") {
+            if (input == "A"||input == "a"){
                 player.changeRooms(&rooms[0]);
                 return;
-            } else if (input == "b") {
+            }else if (input == "B" || input == "b"){
                 player.changeRooms(&rooms[3]);
                 return;
-            } else {
-                cout << "Incorrect choice.\n";
+            }else{
+                cout<<"Incorrect choice\n";
             }
-        } else {
-            string actions[] = {"a. Move left"};
+        }else {
+            string actions[] = {"A. Move Left"};
             printActions(1, actions);
             string input;
             cin >> input;
-            if (input == "a") {
+            if (input == "A"||input == "a"){
                 player.changeRooms(&rooms[2]);
                 return;
-            } else {
-                cout << "Incorrect choice.\n";
+            }else{
+                cout<<"Incorrect choice\n";
             }
         }
     }
-    
-}
 
-int Dungeon::performEndGameLogic() {
-    string actions[] = {"a. Yes", "b. No"};
-    while(true) {
-        printActions(2, actions);
+}//check
+
+int Dungeon::performEndGameLogic(){
+    string actions[] = {"A. Yes", "B. No"};
+    while(true){
+        printActions(2,actions);
         string input;
         cin >> input;
-        if (input == "a") {
+        if(input == "A" || input == "a"){
             return 1;
-        } else if (input == "b") {
+        }else if(input == "B" || input == "b"){
             return 0;
-        } else {
+        }else{
             cout << "Incorrect choice.\n";
         }
     }
 
-}
+} // check
 
-int Dungeon::runDungeon() {
-    cout << "Welcome to the dungeon! Inside you will find treasure but also enemies. Enter at your peril!\n";
+int Dungeon::runDungeon(){
+    cout << "Welcome to my nifty Dungeon Game! You will find enemies and treasure.\nEnjoy your journey!\n";
     player.currentRoom = &rooms[0];
     player.previousRoom = &rooms[0];
-    while(true) {
-        enterRoom(player.currentRoom);
-        if (player.checkIsDead()) {
-            cout << "Game over! Try again?\n";
+    while(true){
+        enterRoom(player.currentRoom);        
+        if(player.checkIsDead()){
+            cout << "I'm Sorry!\nYou have lost the Game :(\nTry again?\n";
             return performEndGameLogic();
-        } else {
-            if (player.currentRoom->isExit) {
-                if (player.currentRoom->enemies.size() == 0) {
+        }else{
+            if (player.currentRoom->isExit){
+                if (player.currentRoom->enemies.size()==0){
                     cout << "You win! Play again?\n";
                     return performEndGameLogic();
                 }
@@ -228,6 +228,4 @@ int Dungeon::runDungeon() {
         }
         handleMovementActions(player.currentRoom);
     }
-}
-
-
+}//check
