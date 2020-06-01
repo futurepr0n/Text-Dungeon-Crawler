@@ -13,6 +13,9 @@ public:
     vector<Item> items;
     vector<GameCharacter> enemies;
 
+    Room(int, bool, vector<Item>, vector<GameCharacter>);
+    void clearLoot();
+    void clearEnemies();    
 }
 
 #endif
