@@ -100,7 +100,7 @@ void Dungeon::handleRoomWithEnemy(Room *room){
         cin >> input;
         if (input== "A" || input == "a"){
             //fight
-            
+            handleFightActions(&enemy);
             return;
         }else if(input == "B" || input == "b"){
             player.changeRooms(player.previousRoom);
