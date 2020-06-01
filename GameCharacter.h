@@ -1,5 +1,8 @@
 #include <string>
 
+#ifndef GAMECHARACTER_H
+#define GAMECHARACTER_H
+
 using namespace std;
 
 class GameCharacter{
@@ -11,3 +14,5 @@ public:
 
     bool checkIsDead();
 };
+
+#endif
