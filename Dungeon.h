@@ -8,7 +8,7 @@ public:
     Player player;
     Room rooms[4];
     Dungeon(Player);
-    int runDungeon;
+    int runDungeon();
     void enterRoom(Room *);
     void handleEmptyRoom(Room *);
     void handleRoomWithChest(Room *);
