@@ -2,6 +2,7 @@
 #include "Player.h"
 #include <iostream>
 
+
 using namespace std;
 
 
@@ -143,20 +144,52 @@ void Dungeon::enterRoom(Room *room){
 
 }
 
+int Dungeon::performEndGameLogic(){
+    string actions[] = "A. Yes", "B. No"};
+    while(true){
+        printActions(2,actions);
+        string input;
+        cin >> input;
+        if(input == "A" || input == "a"){
+            return 1;
+        }else if(input == "B" || input == "b"){
+            return 0;
+        }else{
+            cout << "Incorrect choice.\n";
+        }
+    }
+    printActions(2, actions);
+
+}
+
 int Dungeon::runDungeon(){
     cout << "Welcome to my nifty Dungeon Game! You will find enemies and treasure.\nEnjoy your journey!\n";
     player.currentRoom = &rooms[0];
     player.previousRoom = &rooms[0];
     
     while(true){
-    //enter room
-    enterRoom(player.currentRoom);
-    //present actions
-    //take action - enter sequence
-    //check if dead
-    
-    //movement options
-    handleMovementActions(player.currentRoom);
+        //enter room
+        enterRoom(player.currentRoom);
+        
+        if(player.checkIsDead()){
+            //lose the game
+            cout << "I'm Sorry!\nYou have lost the Game :(\nTry again?\n";
+            return performEndGameLogic();
+        }else{
+            if (player.currentRoom->isExit){
+                if (player.currentRoom->enemies.size()==0){
+                    //win the game
+                    cout << "You win! Play again?\n";
+                    return performEndGameLogic();
+                }
+            }
+        }
+        //present actions
+        //take action - enter sequence
+        //check if dead
+
+        //movement options
+        handleMovementActions(player.currentRoom);
 
     }
 
@@ -187,7 +220,7 @@ void Dungeon::handleMovementActions(Room *room){
             printActions(1, actions);
             string input;
             cin >> input;
-            if (input == "A"||input == "a"){
+            if (input == "A"|| input == "a"){
                 player.changeRooms(&room[1]);
                 return;
             }else{

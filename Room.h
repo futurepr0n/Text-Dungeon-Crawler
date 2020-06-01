@@ -16,6 +16,6 @@ public:
     Room(int = 0, bool=false, vector<Item> = vector<Item>(), vector<GameCharacter> = vector<GameCharacter>());
     void clearLoot();
     void clearEnemies();    
-}
+};
 
 #endif
