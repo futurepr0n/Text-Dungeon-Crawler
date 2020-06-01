@@ -38,11 +38,19 @@ void Dungeon::handleFightActions(GameCharacter *enemy){
         }
         //check enemy is dead
         if (enemy->checkIsDead()){
-            
+            cout << "Congradulations! You killed the "<< enemy->name <<"enemy!";
+            player.increaseStats(10,5,5);
+            player.currentRoom->clearEnemies();
+            return;            
         }
 
         //handle enemy actions
-
+        int damage = player.takeDamage(enemy->attack);
+        cout<< enemy->name << "'s attack does " << damage << " Damage! \n";
+        cout<< "You now have " << player.currentHealth<<" Health left. \n";
+        if(player.checkIsDead()){
+            return;
+        }
         
     }
 
