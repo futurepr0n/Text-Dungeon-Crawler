@@ -1,9 +1,10 @@
 #include <iostream>
-#include "Dungeon.h"
-#include "Player.h"
-#include "GameCharacter.h"
-#include "Item.h"
-#include "Room.h"
+#include "Dungeon.cpp"
+#include "Player.cpp"
+#include "GameCharacter.cpp"
+#include "Item.cpp"
+#include "Room.cpp"
+
 
 int main()
 {

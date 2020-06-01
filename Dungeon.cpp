@@ -78,7 +78,7 @@ void Dungeon::handleRoomWithChest(Room *room){
         printActions(2, actions);
         string input;
         cin >> input;
-        if (input== "A" || input == "a"){
+        if (input == "A" || input == "a"){
             //loot the chest
             handleLootActions(room);
             return;
@@ -136,16 +136,17 @@ void Dungeon::handleEmptyRoom(Room *room){
 void Dungeon::enterRoom(Room *room){
     if (room->enemies.size() !=0){
         //handle room with enemy
+        handleRoomWithChest(room);
     }else if (room ->items.size()!=0){
         //handle room with chest
     } else {
-
+        handleEmptyRoom(room);
     }
 
 }
 
 int Dungeon::performEndGameLogic(){
-    string actions[] = "A. Yes", "B. No"};
+    string actions[] = {"A. Yes", "B. No"};
     while(true){
         printActions(2,actions);
         string input;
